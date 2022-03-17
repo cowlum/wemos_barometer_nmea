@@ -1,30 +1,26 @@
 
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP280.h>
 #include <iomanip>
 
 WiFiUDP UDP;
+Adafruit_BMP280 BMP;
 
 // Set WiFi credentials
-#define WIFI_SSID "SSID"
-#define WIFI_PASS "password"
+#define WIFI_SSID "LittleFish"
+#define WIFI_PASS "joinlittlefishathome22!@#"
 #define UDP_PORT 5000  // May need to be changed to 5000
 #define UDP_TARGET_IP "192.168.0.255"
-unsigned long delayTime;
+unsigned long delayTime = 10000;
 int restart_counter = 0;
 float pressure_var = 0;
-float pressure_adjust = -0.004;
-//int soak_testing = 0;
-
-
 // calibrate pressure
 #define SEALEVELPRESSURE_HPA (1013.25)
+float pressure_adjust = 0.000;
 
-Adafruit_BMP280 BMP;
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -48,19 +44,15 @@ void setup() {
     }
   }
 
-  bool status;
-
-  // default settings
-  // (you can also pass in a Wire library object like &Wire2)
-  status = BMP.begin(0x76);  
-  //if (!status) {
-  //  Serial.println("Could not find a valid BMP280 sensor, check wiring!");
-  //  while (1);
-  //}
+  BMP.begin(0x76);                    
+    /* Default settings from datasheet. */
+  BMP.setSampling(Adafruit_BMP280::MODE_NORMAL,     /* Operating Mode. */
+                  Adafruit_BMP280::SAMPLING_X2,     /* Temp. oversampling */
+                  Adafruit_BMP280::SAMPLING_X16,    /* Pressure oversampling */
+                  Adafruit_BMP280::FILTER_X16,      /* Filtering. */
+                  Adafruit_BMP280::STANDBY_MS_1000); /* Standby time. */          
 
   Serial.println("-- Default Test --");
-  delayTime = 10000;
-
   Serial.println();
 }
 
@@ -104,19 +96,6 @@ void udp_send() {
   UDP.beginPacket(UDP_TARGET_IP, UDP_PORT);
   UDP.printf("%s%s%X\n", nmea_rpm_str.c_str(),"*", nmea0183_checksum(nmea_array));
   UDP.endPacket();  
-
-
-  //std::string tmp = std::to_string(soak_testing);
-  //char const *num_char = tmp.c_str();
-
-  //String soak_str = soak_testing;
-  //int soak_len = soak_str.length() + 1;
-  //char soak_array[soak_len]; 
-  //soak_str.toCharArray(soak_array, soak_len);
-  //UDP.beginPacket(UDP_TARGET_IP, UDP_PORT);
-  //UDP.printf(num_char);
-  //UDP.endPacket();
-  //soak_testing++;
   
 }
 
