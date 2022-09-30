@@ -8,10 +8,11 @@ Creates a standard NMEA IIXDR message and calculates the checksum.
 
 ### Hardware
 
-| Hardware            | 
-| ----------------- | 
-| Wemos (ESP8266) | 
-| BMP280 |
+| Hardware            | |
+| ----------------- | -----------------|
+| ESP8266 | Wemos D1 mini | 
+| Barometer | BMP280 |
+| buck converter | Mini 560 |
 
 ### Wiring
 
