@@ -4,7 +4,9 @@
 Simple wemos based barometer to send NMEA messages to wifi (UDP) or serial.
 Creates a standard NMEA IIXDR message and calculates the checksum.
 
-
+```bash
+$IIXDR,P,1.02481,B,Barometer*29
+```
 
 ### Hardware
 
