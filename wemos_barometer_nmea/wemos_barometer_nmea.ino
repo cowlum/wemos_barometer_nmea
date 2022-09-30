@@ -11,7 +11,7 @@ Adafruit_BMP280 BMP;
 
 // Set WiFi credentials
 #define WIFI_SSID "LittleFish"
-#define WIFI_PASS "joinlittlefishathome22!@#"
+#define WIFI_PASS ""
 #define UDP_PORT 5000  // May need to be changed to 5000
 #define UDP_TARGET_IP "192.168.0.255"
 unsigned long delayTime = 10000;
